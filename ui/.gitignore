@@ -39,3 +39,4 @@ lib/generated_plugin_registrant.dart
 
 # my docker build script
 docker*.sh
+commands.txt
