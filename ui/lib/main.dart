@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:editable/editable.dart';
 import 'package:flutter/material.dart';
+import 'package:myanimate/screens/form_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,15 +12,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CODAS',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: Colors.blue,
-        accentColor: Colors.white,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'CODAS METHOD'),
-    );
+        title: 'CODAS',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          primaryColor: Colors.blue,
+          accentColor: Colors.white,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: FormPage()
+        // home: MyHomePage(title: 'CODAS METHOD'),
+        );
   }
 }
 
@@ -63,9 +65,12 @@ class _MyHomePageState extends State<MyHomePage> {
     },
   ];
   List cols = [
-    {"title": 'Name', 'widthFactor': 0.2, 'key': 'name', 'editable': false},
-    {"title": 'Date', 'widthFactor': 0.2, 'key': 'date'},
-    {"title": 'Month', 'widthFactor': 0.2, 'key': 'month'},
+    {
+      "title": 'Name',
+      'key': 'name',
+    },
+    {"title": 'Date', 'key': 'date'},
+    {"title": 'Month', 'key': 'month'},
     {"title": 'Status', 'key': 'status'},
   ];
 
@@ -80,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ///Print only edited rows.
   void _printEditedRows() {
-    List editedRows = _editableKey.currentState.editedRows;
+    List editedRows = _editableKey.currentState.rows;
     print(editedRows);
   }
 
@@ -103,7 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: TextButton(
                 onPressed: () => _printEditedRows(),
                 child: Text('Print Edited Rows',
-                    style: TextStyle(fontWeight: FontWeight.bold))),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white))),
           )
         ],
       ),
@@ -115,16 +121,16 @@ class _MyHomePageState extends State<MyHomePage> {
         stripeColor1: Colors.blue[50],
         stripeColor2: Colors.grey[200],
         onRowSaved: (value) {
-          print("saved row with values:" );
+          print("saved row with values:");
           print(value);
         },
         onSubmitted: (value) {
           print(value);
         },
         borderColor: Colors.blueGrey,
-        tdStyle: TextStyle( fontWeight: FontWeight.bold ),
+        tdStyle: TextStyle(fontWeight: FontWeight.bold),
         trHeight: 80,
-        thStyle: TextStyle( fontSize: 15, fontWeight: FontWeight.bold ),
+        thStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         thAlignment: TextAlign.center,
         thVertAlignment: CrossAxisAlignment.end,
         thPaddingBottom: 0,
