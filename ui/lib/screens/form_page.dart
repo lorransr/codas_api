@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myanimate/model/criteria.dart';
 import 'package:myanimate/model/criteria_type.dart';
+import 'package:myanimate/screens/matrix_page.dart';
 
 class FormPage extends StatefulWidget {
   @override
@@ -16,6 +17,8 @@ class _FormPageState extends State<FormPage> {
     CriteriaType.benefit.toString().split(".").last,
     CriteriaType.cost.toString().split(".").last
   ];
+  var _dropDownValue;
+  var _criteriaWeight;
   int _lastRemovedPos;
 
   void _snackValidationError(String message) {
@@ -31,7 +34,12 @@ class _FormPageState extends State<FormPage> {
     setState(() {
       var newCriteria =
           Criteria(_textController.text, CriteriaType.benefit, 0.0);
-      if (_criteriaList.length > 0) {
+      if (["", " ", "  "].contains(newCriteria.name) ||
+          newCriteria.name.isEmpty) {
+        _snackValidationError("Criteria name must not be empty");
+      } else if (newCriteria.name.length < 3) {
+        _snackValidationError("Criteria name must have at least 3 characters");
+      } else if (_criteriaList.length > 0) {
         var nameSet = _criteriaList.map((e) => e.name).toSet();
         bool valueNotInSet = nameSet.add(newCriteria.name);
         if (valueNotInSet) {
@@ -41,12 +49,8 @@ class _FormPageState extends State<FormPage> {
           _snackValidationError("Criteria with same name already added");
         }
       } else {
-        if (["", " "].contains(newCriteria.name)) {
-          _snackValidationError("Criteria name must not be empty");
-        } else {
-          _criteriaList.add(newCriteria);
-          _textController.text = '';
-        }
+        _criteriaList.add(newCriteria);
+        _textController.text = '';
       }
     });
   }
@@ -54,7 +58,9 @@ class _FormPageState extends State<FormPage> {
   void _submit() {
     int nErrors = _validateCriteriaList(_criteriaList);
     if (nErrors == 0) {
-      print(_criteriaList.map((e) => e.name));
+      print("Valid Criterias");
+      Navigator.pushNamed(context, MatrixPage.routeName,
+          arguments: _criteriaList);
     } else {
       print("Validation Errors were found: $nErrors");
     }
@@ -93,14 +99,6 @@ class _FormPageState extends State<FormPage> {
       );
       ScaffoldMessenger.of(context).showSnackBar(snack);
     });
-  }
-
-  CriteriaType _getCriteriaType(String criteriaTypeName) {
-    if (CriteriaType.benefit.toString().contains(criteriaTypeName)) {
-      return CriteriaType.benefit;
-    } else {
-      return CriteriaType.cost;
-    }
   }
 
   @override
@@ -157,71 +155,73 @@ class _FormPageState extends State<FormPage> {
         ));
   }
 
-  Widget itemBuilder(context, index) {
+  Widget itemBuilder(BuildContext context, int index) {
     int keyValue = index;
-    var _dropDownValue;
     //Widget responsável por permitir dismiss
-    return Dismissible(
-      key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
-      //A propriedade "background" representa o fundo da nossa tile, o fundo em si não possui ações
-      //As ações estão no evento onDismissed
-      background: Container(
-        color: Colors.redAccent,
-        child: Align(
-          alignment: Alignment(-0.9, 0.0),
-          child: Icon(Icons.delete, color: Colors.white),
+    return StatefulBuilder(
+      builder:
+          (BuildContext context, void Function(void Function()) setState) =>
+              Dismissible(
+        key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
+        //A propriedade "background" representa o fundo da nossa tile, o fundo em si não possui ações
+        //As ações estão no evento onDismissed
+        background: Container(
+          color: Colors.redAccent,
+          child: Align(
+            alignment: Alignment(-0.9, 0.0),
+            child: Icon(Icons.delete, color: Colors.white),
+          ),
         ),
-      ),
-      direction: DismissDirection.startToEnd,
-      child: Card(
-        child: Column(
-          key: Key("$keyValue"),
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                _criteriaList[index].name,
+        direction: DismissDirection.startToEnd,
+        child: Card(
+          child: Column(
+            key: Key("$keyValue"),
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  _criteriaList[index].name,
+                ),
               ),
-            ),
-            ListTile(
-              leading: Text('Type: '),
-              title: DropdownButton(
-                value: _dropDownValue,
-                onChanged: (val) {
-                  _criteriaList[index].type = _getCriteriaType(val);
-                  _formdata['type_${keyValue}'] = val;
-                  setState(() {
-                    _dropDownValue = val;
-                  });
-                },
-                items: _criteriaTypeList.map<DropdownMenuItem<String>>(
-                  (String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
+              ListTile(
+                leading: Text('Type: '),
+                title: DropdownButton(
+                  value: getCriteriaTypeName(_criteriaList[index].type),
+                  onChanged: (val) {
+                    _criteriaList[index].type = getCriteriaType(val);
+                    print(val);
+                    setState(() => _dropDownValue = val);
                   },
-                ).toList(),
+                  items: _criteriaTypeList.map<DropdownMenuItem<String>>(
+                    (String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    },
+                  ).toList(),
+                ),
               ),
-            ),
-            ListTile(
-              leading: Text("Criteria Weight:"),
-              title: TextField(
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r"^\d*\.?\d*"))
-                ],
-                onChanged: (val) {
-                  _criteriaList[index].weight = double.parse(val);
-                  _formdata['weight_${keyValue}'] = val;
-                },
+              ListTile(
+                leading: Text("Criteria Weight:"),
+                title: TextFormField(
+                  initialValue: _criteriaList[index].weight.toString(),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r"^\d*\.?\d*"))
+                  ],
+                  onChanged: (val) {
+                    _criteriaList[index].weight = double.parse(val);
+                    _formdata['weight_${keyValue}'] = val;
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        onDismissed: (direction) {
+          _dismissCriteria(direction, context, index);
+        },
       ),
-      onDismissed: (direction) {
-        _dismissCriteria(direction, context, index);
-      },
     );
   }
 }
