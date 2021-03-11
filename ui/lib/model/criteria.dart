@@ -13,6 +13,9 @@ class Criteria {
   Map<String, String> getColumn() {
     return {"title": this.name, "key": this.key};
   }
+
+  Map<String, dynamic> toJson() =>
+      {"name": name, "type": getCriteriaTypeName(type), "weight": weight};
 }
 
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
