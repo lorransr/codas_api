@@ -5,6 +5,9 @@ from typing import List
 from enum import Enum
 import pandas as pd
 import codas_method
+import logging
+
+logger = logging.getLogger()
 
 app = FastAPI()
 
@@ -104,12 +107,18 @@ class CodasInput(BaseModel):
 
 @app.post("/codas/")
 def calculate_codas(input:CodasInput):
+    logger.info("received input")
+    logger.debug("input dict: {}".format(input.dict()))
+    logger.info("pre processing")
     m_raw = pd.DataFrame(input.alternatives,columns=[c.name for c in input.criterias])
     weights = pd.Series([c.weight for c in input.criterias],index = [c.name for c in input.criterias])
     alternatives = [ "a_" + str(i) for i in range(1,len(m_raw)+1)]
     benefit_criteria = [c.name for c in input.criterias if c.type == CriteriaType.benefit]
     cost_criteria = [c.name for c in input.criterias if c.type == CriteriaType.cost]
+    logger.info("calculating codas...")
     assessment_score = (
         codas_method.calculate_codas(
             m_raw,alternatives,weights,benefit_criteria,cost_criteria,input.threshold))
+    logger.info("sending results")
+    logging.debug("assessment_score: {}".format(assessment_score.to_dict()))
     return {"response":assessment_score.to_dict()}
