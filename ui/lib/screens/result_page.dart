@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myanimate/bloc/results_bloc.dart';
 import 'package:myanimate/model/codas_input.dart';
+import 'package:myanimate/model/criteria.dart';
+import 'package:myanimate/model/criteria_type.dart';
 import 'package:myanimate/model/model_results.dart';
 
 class ResultPage extends StatefulWidget {
@@ -14,7 +18,26 @@ class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     CodasInput _input = ModalRoute.of(context).settings.arguments;
-    print("input: ${_input.toJson()}");
+    if (_input != null) {
+      print("received inputs: ${_input}");
+    } else {
+      print("empty arguments; generating inputs...");
+      List<Criteria> _fakeCriterias = [
+        Criteria("criteria_1", CriteriaType.benefit, 0.5),
+        Criteria("criteria_2", CriteriaType.benefit, 0.5)
+      ];
+      List<List<double>> _fakeAlternatives = [
+        [0.1, 0.3],
+        [0.5473, 0.5],
+        [0.2, 0.1],
+        [0.7, 0.1],
+        [0.4, 0.2],
+        [1, 0.3],
+        [0.4, 1]
+      ];
+      _input = CodasInput(_fakeCriterias, _fakeAlternatives, 0.02);
+    }
+    print("input: ${jsonEncode(_input)}");
     resultsBloc.getRanking(_input);
     // TODO: implement build
     return StreamBuilder<ModelResults>(

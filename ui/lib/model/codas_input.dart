@@ -5,6 +5,7 @@ class CodasInput {
   List<List<double>> alternatives;
   double threshold;
   CodasInput(this.criterias, this.alternatives, this.threshold);
+
   Map<String, dynamic> toJson() => {
         'criterias': criterias,
         'alternatives': alternatives,
