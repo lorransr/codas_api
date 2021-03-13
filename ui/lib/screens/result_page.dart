@@ -40,20 +40,31 @@ class _ResultPageState extends State<ResultPage> {
     print("input: ${jsonEncode(_input)}");
     resultsBloc.getRanking(_input);
     // TODO: implement build
-    return StreamBuilder<ModelResults>(
-      stream: resultsBloc.subject.stream,
-      builder: (context, AsyncSnapshot<ModelResults> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.error != null && snapshot.data.error.length > 0) {
-            return _buildErrorWidget(snapshot.data.error);
-          }
-          return _buildSuccessWidget(snapshot.data);
-        } else if (snapshot.hasError) {
-          return _buildErrorWidget(snapshot.error);
-        } else {
-          return _buildLoadingWidget();
-        }
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Results'),
+        backgroundColor: Colors.purple,
+      ),
+      body: Column(
+        children: [
+          StreamBuilder<ModelResults>(
+            stream: resultsBloc.subject.stream,
+            builder: (context, AsyncSnapshot<ModelResults> snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.error != null &&
+                    snapshot.data.error.length > 0) {
+                  return _buildErrorWidget(snapshot.data.error);
+                }
+                return _buildSuccessWidget(snapshot.data);
+              } else if (snapshot.hasError) {
+                return _buildErrorWidget(snapshot.error);
+              } else {
+                return _buildLoadingWidget();
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -81,6 +92,7 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget _buildSuccessWidget(ModelResults data) {
+    print(data.results);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

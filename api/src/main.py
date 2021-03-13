@@ -121,4 +121,4 @@ def calculate_codas(input:CodasInput):
             m_raw,alternatives,weights,benefit_criteria,cost_criteria,input.threshold))
     logger.info("sending results")
     logging.debug("assessment_score: {}".format(assessment_score.to_dict()))
-    return {"response":assessment_score.to_dict()}
+    return {"statusCode":200,"body":assessment_score.to_dict()}

@@ -12,6 +12,7 @@ class ApiProvider {
   Future<ModelResults> getRanking(CodasInput input) async {
     try {
       Response response = await _dio.post(_endpoint, data: jsonEncode(input));
+      print("success");
       return ModelResults.fromJson(response.data);
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
