@@ -1,13 +1,12 @@
 from fastapi import FastAPI
+from fastapi.logger import logger 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel,validator
 from typing import List
 from enum import Enum
 import pandas as pd
 import codas_method
-import logging
 
-logger = logging.getLogger()
 
 app = FastAPI()
 
@@ -87,8 +86,13 @@ class CodasInput(BaseModel):
             sizes.append(len(a))
         print(len(set(sizes)))
         if len(set(sizes)) != 1:
+            print("alternatives should have same size")
             raise ValueError("alternatives should have same size")
+        elif "criterias" not in values:
+            print("criterias should be provided")
+            raise ValueError("criterias should be provided")
         elif sizes[0] != len(values["criterias"]):
+            print("alternatives and criterias should have same length")
             raise ValueError("alternatives and criterias should have same length")
         else:
             return v
@@ -107,18 +111,18 @@ class CodasInput(BaseModel):
 
 @app.post("/codas/")
 def calculate_codas(input:CodasInput):
-    logger.info("received input")
-    logger.debug("input dict: {}".format(input.dict()))
-    logger.info("pre processing")
+    print("received input")
+    print("input dict: {}".format(input.dict()))
+    print("pre processing")
     m_raw = pd.DataFrame(input.alternatives,columns=[c.name for c in input.criterias])
     weights = pd.Series([c.weight for c in input.criterias],index = [c.name for c in input.criterias])
     alternatives = [ "a_" + str(i) for i in range(1,len(m_raw)+1)]
     benefit_criteria = [c.name for c in input.criterias if c.type == CriteriaType.benefit]
     cost_criteria = [c.name for c in input.criterias if c.type == CriteriaType.cost]
-    logger.info("calculating codas...")
+    print("calculating codas...")
     assessment_score = (
         codas_method.calculate_codas(
             m_raw,alternatives,weights,benefit_criteria,cost_criteria,input.threshold))
-    logger.info("sending results")
-    logging.debug("assessment_score: {}".format(assessment_score.to_dict()))
+    print("sending results")
+    print("assessment_score: {}".format(assessment_score.to_dict()))
     return {"statusCode":200,"body":assessment_score.to_dict()}

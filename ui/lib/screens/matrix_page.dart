@@ -81,11 +81,32 @@ class _MatrixPageState extends State<MatrixPage> {
     return alternatives;
   }
 
-  void _submit() {
-    var alternatives = _getAlternatives();
-    var threshold = 0.02;
-    CodasInput input = CodasInput(_criterias, alternatives, threshold);
-    Navigator.pushNamed(context, ResultPage.routeName, arguments: input);
+  bool _validAlternatives(List<List<double>> _alternatives) {
+    if (_alternatives.length < 2) {
+      return false;
+    }
+    return true;
+  }
+
+  void _snackValidationError(String message) {
+    final snack = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red[200],
+      duration: Duration(seconds: 5),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snack);
+  }
+
+  void _submit(List<Criteria> criterias) {
+    List<List<double>> alternatives = _getAlternatives();
+    if (_validAlternatives(alternatives)) {
+      var threshold = 0.02;
+      print(criterias.length);
+      CodasInput input = CodasInput(criterias, alternatives, threshold);
+      Navigator.pushNamed(context, ResultPage.routeName, arguments: input);
+    } else {
+      _snackValidationError("You must input at least 2 alternatives");
+    }
   }
 
   List<DataColumn> _createCols(List<Criteria> criterias) {
@@ -108,7 +129,7 @@ class _MatrixPageState extends State<MatrixPage> {
     int i = 0;
     while (i < n) {
       criterias.add(
-        Criteria("criteria_$i", CriteriaType.benefit, 0.0),
+        Criteria("criteria_$i", CriteriaType.benefit, 0.2),
       );
       i++;
     }
@@ -117,11 +138,11 @@ class _MatrixPageState extends State<MatrixPage> {
 
   @override
   Widget build(BuildContext context) {
-    _criterias = _generateCriterias(3);
+    // _criterias = _generateCriterias(5);
+    // _cols = _createCols(_criterias);
+    List<Criteria> _criterias = ModalRoute.of(context).settings.arguments;
+    print("n criterias: ${_criterias.length}");
     _cols = _createCols(_criterias);
-    // List<Criteria> _criterias = ModalRoute.of(context).settings.arguments;
-    // print("n criterias: ${_criterias.length}");
-    // _cols = _criterias.map((e) => e.getColumn()).toList();
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 200,
@@ -192,7 +213,7 @@ class _MatrixPageState extends State<MatrixPage> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          _submit();
+                          _submit(_criterias);
                         },
                         child: Text("Submit"),
                         style: ElevatedButton.styleFrom(

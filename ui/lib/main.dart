@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CODAS',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.blue,
@@ -26,9 +27,6 @@ class MyApp extends StatelessWidget {
         "/matrix": (context) => MatrixPage(),
         "/results": (context) => ResultPage()
       },
-      // home: MyHomePage(title: 'CODAS METHOD'),
     );
   }
 }
-
-class ResultsPage {}
