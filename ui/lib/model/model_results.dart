@@ -4,7 +4,7 @@ class ModelResults {
   ModelResults(this.results, this.error);
 
   ModelResults.fromJson(Map<String, dynamic> json)
-      : results = json,
+      : results = json["body"],
         error = "";
 
   ModelResults.withError(String errorValue)

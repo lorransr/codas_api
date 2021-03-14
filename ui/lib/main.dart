@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myanimate/screens/form_page.dart';
+import 'package:myanimate/screens/home_page.dart';
 import 'package:myanimate/screens/matrix_page.dart';
 import 'package:myanimate/screens/result_page.dart';
 
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": (context) => FormPage(),
+        "/": (context) => HomePage(),
+        "/form": (context) => FormPage(),
         "/matrix": (context) => MatrixPage(),
         "/results": (context) => ResultPage()
       },

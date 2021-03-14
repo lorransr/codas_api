@@ -47,21 +47,26 @@ class _ResultPageState extends State<ResultPage> {
       ),
       body: Column(
         children: [
-          StreamBuilder<ModelResults>(
-            stream: resultsBloc.subject.stream,
-            builder: (context, AsyncSnapshot<ModelResults> snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.error != null &&
-                    snapshot.data.error.length > 0) {
-                  return _buildErrorWidget(snapshot.data.error);
-                }
-                return _buildSuccessWidget(snapshot.data);
-              } else if (snapshot.hasError) {
-                return _buildErrorWidget(snapshot.error);
-              } else {
-                return _buildLoadingWidget();
-              }
-            },
+          SizedBox(height: 32),
+          Expanded(
+            child: SingleChildScrollView(
+              child: StreamBuilder<ModelResults>(
+                stream: resultsBloc.subject.stream,
+                builder: (context, AsyncSnapshot<ModelResults> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data.error != null &&
+                        snapshot.data.error.length > 0) {
+                      return _buildErrorWidget(snapshot.data.error);
+                    }
+                    return _buildSuccessWidget(snapshot.data);
+                  } else if (snapshot.hasError) {
+                    return _buildErrorWidget(snapshot.error);
+                  } else {
+                    return _buildLoadingWidget();
+                  }
+                },
+              ),
+            ),
           ),
         ],
       ),
@@ -92,14 +97,37 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget _buildSuccessWidget(ModelResults data) {
-    print(data.results);
+    print("results: ${data.results}");
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Results widget"),
+          Text("Results Table"),
+          DataTable(
+            columns: [
+              DataColumn(label: Text("Alternative")),
+              DataColumn(label: Text("Value"))
+            ],
+            rows: _getRowsFromResults(data.results),
+          )
         ],
       ),
     );
+  }
+
+  List<DataRow> _getRowsFromResults(Map<String, dynamic> results) {
+    List<DataRow> _dataRows = [];
+    results.forEach((key, value) {
+      var _value = value.toStringAsFixed(3);
+      var _row = DataRow(cells: [
+        DataCell(Text(key
+            .toUpperCase()
+            .replaceAll("A", "ALTERNATIVE")
+            .replaceAll("_", " "))),
+        DataCell(Text(_value))
+      ]);
+      _dataRows.add(_row);
+    });
+    return _dataRows;
   }
 }

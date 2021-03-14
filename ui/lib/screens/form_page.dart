@@ -5,6 +5,7 @@ import 'package:myanimate/model/criteria_type.dart';
 import 'package:myanimate/screens/matrix_page.dart';
 
 class FormPage extends StatefulWidget {
+  static const routeName = '/form';
   @override
   _FormPageState createState() => _FormPageState();
 }
