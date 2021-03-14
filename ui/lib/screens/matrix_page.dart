@@ -21,6 +21,7 @@ class _MatrixPageState extends State<MatrixPage> {
   List<Criteria> _criterias = [];
   List<DataColumn> _cols = [];
   List<DataRow> _rows = [];
+  ScrollController _scrollcontroller = ScrollController();
 
   /// Function to add a new row
   /// Using the global key assigined to Editable widget
@@ -129,7 +130,7 @@ class _MatrixPageState extends State<MatrixPage> {
     int i = 0;
     while (i < n) {
       criterias.add(
-        Criteria("criteria_$i", CriteriaType.benefit, 0.2),
+        Criteria("criteria_$i", CriteriaType.benefit, 1 / n),
       );
       i++;
     }
@@ -138,9 +139,9 @@ class _MatrixPageState extends State<MatrixPage> {
 
   @override
   Widget build(BuildContext context) {
-    // _criterias = _generateCriterias(5);
-    // _cols = _createCols(_criterias);
-    List<Criteria> _criterias = ModalRoute.of(context).settings.arguments;
+    _criterias = _generateCriterias(20);
+    _cols = _createCols(_criterias);
+    // List<Criteria> _criterias = ModalRoute.of(context).settings.arguments;
     print("n criterias: ${_criterias.length}");
     _cols = _createCols(_criterias);
     return Scaffold(
@@ -162,70 +163,58 @@ class _MatrixPageState extends State<MatrixPage> {
       ),
       body: Column(
         children: [
-          Expanded(
-            flex: 7,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 0, 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                          onPressed: _addNewRow,
-                          icon: Icon(Icons.add_box_sharp)),
-                      IconButton(
-                          onPressed: _removeRow,
-                          icon: Icon(Icons.remove_circle)),
-                    ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 0, 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: _addNewRow, icon: Icon(Icons.add_box_sharp)),
+                    IconButton(
+                        onPressed: _removeRow, icon: Icon(Icons.remove_circle)),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                            columns: _cols, rows: _rows, key: _tableKey)),
                   ),
                 ),
-                Expanded(
-                  child: Center(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Expanded(
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Expanded(
-                                child: DataTable(
-                                    columns: _cols,
-                                    rows: _rows,
-                                    key: _tableKey))),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.all(32),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _submit(_criterias);
+                      },
+                      child: Text("Submit"),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        onPrimary: Colors.white,
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(17.0, 1.0, 7.0, 17.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          _submit(_criterias);
-                        },
-                        child: Text("Submit"),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          onPrimary: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           )
         ],
       ),

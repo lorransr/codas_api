@@ -26,8 +26,8 @@ RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
 RUN flutter build web
-RUN flutter packages pub global activate webdev
+# RUN flutter packages pub global activate webdev
 
-# # Stage 2 - Create the run-time image
-# FROM nginx
-# COPY --from=build-env /app/build/web /usr/share/nginx/html
+# Stage 2 - Create the run-time image
+FROM nginx
+COPY --from=build-env /app/build/web /usr/share/nginx/html
