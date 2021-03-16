@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myanimate/screens/form_page.dart';
-import 'package:myanimate/screens/home_page.dart';
-import 'package:myanimate/screens/matrix_page.dart';
-import 'package:myanimate/screens/result_page.dart';
+import 'package:codas_method/screens/form_page.dart';
+import 'package:codas_method/screens/home_page.dart';
+import 'package:codas_method/screens/matrix_page.dart';
+import 'package:codas_method/screens/result_page.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myanimate/model/codas_input.dart';
-import 'package:myanimate/model/criteria.dart';
-import 'package:myanimate/model/criteria_type.dart';
-import 'package:myanimate/screens/result_page.dart';
+import 'package:codas_method/model/codas_input.dart';
+import 'package:codas_method/model/criteria.dart';
+import 'package:codas_method/model/criteria_type.dart';
+import 'package:codas_method/screens/result_page.dart';
 
 class MatrixPage extends StatefulWidget {
   static const routeName = '/matrix';
