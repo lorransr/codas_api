@@ -139,9 +139,9 @@ class _MatrixPageState extends State<MatrixPage> {
 
   @override
   Widget build(BuildContext context) {
-    _criterias = _generateCriterias(20);
-    _cols = _createCols(_criterias);
-    // List<Criteria> _criterias = ModalRoute.of(context).settings.arguments;
+    // _criterias = _generateCriterias(20);
+    // _cols = _createCols(_criterias);
+    List<Criteria> _criterias = ModalRoute.of(context).settings.arguments;
     print("n criterias: ${_criterias.length}");
     _cols = _createCols(_criterias);
     return Scaffold(
