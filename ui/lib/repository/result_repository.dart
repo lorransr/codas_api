@@ -1,6 +1,6 @@
-import 'package:myanimate/model/codas_input.dart';
-import 'package:myanimate/model/model_results.dart';
-import 'package:myanimate/provider/api_provider.dart';
+import 'package:codas_method/model/codas_input.dart';
+import 'package:codas_method/model/model_results.dart';
+import 'package:codas_method/provider/api_provider.dart';
 
 class ResultsRepository {
   ApiProvider _apiProvider = ApiProvider();

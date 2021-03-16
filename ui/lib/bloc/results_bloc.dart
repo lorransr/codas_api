@@ -1,6 +1,6 @@
-import 'package:myanimate/model/codas_input.dart';
-import 'package:myanimate/model/model_results.dart';
-import 'package:myanimate/repository/result_repository.dart';
+import 'package:codas_method/model/codas_input.dart';
+import 'package:codas_method/model/model_results.dart';
+import 'package:codas_method/repository/result_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ResultsBloc {

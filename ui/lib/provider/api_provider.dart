@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:myanimate/model/codas_input.dart';
-import 'package:myanimate/model/model_results.dart';
+import 'package:codas_method/model/codas_input.dart';
+import 'package:codas_method/model/model_results.dart';
 
 class ApiProvider {
   final String _endpoint = "http://127.0.0.1:8000/codas/";

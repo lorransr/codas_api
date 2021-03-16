@@ -1,4 +1,4 @@
-import 'package:myanimate/model/criteria.dart';
+import 'package:codas_method/model/criteria.dart';
 
 class CodasInput {
   List<Criteria> criterias;

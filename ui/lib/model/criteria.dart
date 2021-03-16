@@ -1,6 +1,6 @@
 import "dart:math";
 
-import 'package:myanimate/model/criteria_type.dart';
+import 'package:codas_method/model/criteria_type.dart';
 
 class Criteria {
   String name;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myanimate/model/criteria.dart';
-import 'package:myanimate/model/criteria_type.dart';
-import 'package:myanimate/screens/matrix_page.dart';
+import 'package:codas_method/model/criteria.dart';
+import 'package:codas_method/model/criteria_type.dart';
+import 'package:codas_method/screens/matrix_page.dart';
 
 class FormPage extends StatefulWidget {
   static const routeName = '/form';

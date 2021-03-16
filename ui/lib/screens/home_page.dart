@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myanimate/screens/form_page.dart';
+import 'package:codas_method/screens/form_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
