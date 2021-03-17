@@ -1,4 +1,4 @@
-package com.example.myanimate
+package com.example.codas_method
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:codas_method/bloc/results_bloc.dart';
 import 'package:codas_method/model/codas_input.dart';
-import 'package:codas_method/model/criteria.dart';
-import 'package:codas_method/model/criteria_type.dart';
 import 'package:codas_method/model/model_results.dart';
 
 class ResultPage extends StatefulWidget {
