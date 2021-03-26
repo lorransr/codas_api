@@ -106,7 +106,7 @@ class _ResultPageState extends State<ResultPage> {
               DataColumn(label: Text("Alternative")),
               DataColumn(label: Text("Value"))
             ],
-            rows: _getRowsFromResults(data.results),
+            rows: _getRowsFromResults(data.results.assessment_score),
           )
         ],
       ),

@@ -1,13 +1,15 @@
+import 'codas_output.dart';
+
 class ModelResults {
-  final Map<String, dynamic> results;
+  final CodasOutput results;
   final String error;
   ModelResults(this.results, this.error);
 
   ModelResults.fromJson(Map<String, dynamic> json)
-      : results = json["body"],
+      : results = CodasOutput.fromJson(json),
         error = "";
 
   ModelResults.withError(String errorValue)
-      : results = {},
+      : results = CodasOutput.withError(),
         error = errorValue;
 }
