@@ -1,4 +1,4 @@
-from typing import List
+from typing import List,Optional
 from enum import Enum
 from pydantic import BaseModel,validator
 
@@ -23,6 +23,7 @@ class CodasOutput(BaseModel):
 class CodasInput(BaseModel):
     criterias: List[Criteria]
     alternatives: List[List[float]]
+    alternatives_names: Optional[List[str]]
     threshold: float
 
     class Config:
@@ -99,3 +100,14 @@ class CodasInput(BaseModel):
         assert sum([c.weight for c in v]) == 1, "criterias weights should add up to 1"
         return v
 
+    @validator("alternatives_names")
+    def alternatives_names_should_have_same_len_as_alternatives_vector(cls,v,values):
+        if v == None:
+            return v
+        elif "alternatives" not in values:
+            print("alternatives should be provided")
+            raise ValueError("alternatives should be provided")
+        elif len(v) != len(values["alternatives"]):
+            raise ValueError("alternatives len should have the same len of an alternative vector")
+        else:
+            return v

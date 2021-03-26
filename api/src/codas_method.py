@@ -52,9 +52,9 @@ def calculate_codas(
             )
     # step 6        
     euclidean_comparison = pd.DataFrame(
-    comparison_matrix(euclidian_distance),
-    index=alternatives,
-    columns=alternatives
+        comparison_matrix(euclidian_distance),
+        index=alternatives,
+        columns=alternatives
     )
 
     manhathan_comparison = pd.DataFrame(

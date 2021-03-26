@@ -27,7 +27,11 @@ def calculate_codas(input:CodasInput):
     print("pre processing")
     m_raw = pd.DataFrame(input.alternatives,columns=[c.name for c in input.criterias])
     weights = pd.Series([c.weight for c in input.criterias],index = [c.name for c in input.criterias])
-    alternatives = [ "a_" + str(i) for i in range(1,len(m_raw)+1)]
+    if input.alternatives_names == None:
+        alternatives = [ "a_" + str(i) for i in range(1,len(m_raw)+1)]
+    else:
+        alternatives = input.alternatives_names
+    print(alternatives)
     benefit_criteria = [c.name for c in input.criterias if c.type == CriteriaType.benefit]
     cost_criteria = [c.name for c in input.criterias if c.type == CriteriaType.cost]
     print("calculating codas...")
