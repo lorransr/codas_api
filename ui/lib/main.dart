@@ -1,3 +1,4 @@
+import 'package:codas_method/screens/about_page.dart';
 import 'package:flutter/material.dart';
 import 'package:codas_method/screens/form_page.dart';
 import 'package:codas_method/screens/home_page.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
         "/": (context) => HomePage(),
         "/form": (context) => FormPage(),
         "/matrix": (context) => MatrixPage(),
-        "/results": (context) => ResultPage()
+        "/results": (context) => ResultPage(),
+        "/about": (context) => AboutPage(),
       },
     );
   }

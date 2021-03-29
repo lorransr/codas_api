@@ -73,7 +73,11 @@ class _FormPageState extends State<FormPage> {
       _snackValidationError("Please Insert at least 2 Criterias");
       fail = ++fail;
     }
-    if (_criteriaList.map((e) => e.weight).reduce((a, b) => a + b) != 1) {
+    var _criteria_sum =
+        _criteriaList.map((e) => e.weight).reduce((a, b) => a + b);
+    _criteria_sum = double.parse(_criteria_sum.toStringAsFixed(3));
+    if (_criteria_sum != 1) {
+      print("criteria sum: $_criteria_sum");
       _snackValidationError("Criteria Weights should add up to 1");
       fail = ++fail;
     }
@@ -117,6 +121,7 @@ class _FormPageState extends State<FormPage> {
                   children: <Widget>[
                     Expanded(
                         child: TextField(
+                      onSubmitted: (value) => _addCriteria(),
                       controller: _textController,
                       decoration: InputDecoration(
                           labelText: 'Add a New Criteria',

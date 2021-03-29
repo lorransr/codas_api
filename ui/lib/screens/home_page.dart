@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                           });
                         },
                         child: Text(
-                          'Contact Us',
+                          'About Us',
                           style: TextStyle(
                               color:
                                   _isHovering[2] ? Colors.black : Colors.white),

@@ -1,36 +1,46 @@
 class CodasOutput {
-  final Map<String, dynamic> normalized_matrix;
-  final Map<String, dynamic> weighted_matrix;
-  final Map<String, dynamic> negative_ideal_solution;
-  final Map<String, dynamic> euclidian_distance;
-  final Map<String, dynamic> manhathan_distance;
-  final Map<String, dynamic> relative_assessment_matrix;
-  final Map<String, dynamic> assessment_score;
+  final Map<String, dynamic> normalizedMatrix;
+  final Map<String, dynamic> weightedMatrix;
+  final Map<String, dynamic> negativeIdealSolution;
+  final Map<String, dynamic> euclidianDistance;
+  final Map<String, dynamic> manhathanDistance;
+  final Map<String, dynamic> relativeAssessmentMatrix;
+  final Map<String, dynamic> assessmentScore;
 
   CodasOutput(
-      this.normalized_matrix,
-      this.weighted_matrix,
-      this.negative_ideal_solution,
-      this.euclidian_distance,
-      this.manhathan_distance,
-      this.relative_assessment_matrix,
-      this.assessment_score);
+      this.normalizedMatrix,
+      this.weightedMatrix,
+      this.negativeIdealSolution,
+      this.euclidianDistance,
+      this.manhathanDistance,
+      this.relativeAssessmentMatrix,
+      this.assessmentScore);
 
   CodasOutput.fromJson(Map<String, dynamic> json)
-      : normalized_matrix = json["normalized_matrix"],
-        weighted_matrix = json["weighted_matrix"],
-        negative_ideal_solution = json["negative_ideal_solution"],
-        euclidian_distance = json["euclidian_distance"],
-        manhathan_distance = json["manhathan_distance"],
-        relative_assessment_matrix = json["relative_assessment_matrix"],
-        assessment_score = json["assessment_score"];
+      : normalizedMatrix = json["normalized_matrix"],
+        weightedMatrix = json["weighted_matrix"],
+        negativeIdealSolution = json["negative_ideal_solution"],
+        euclidianDistance = json["euclidian_distance"],
+        manhathanDistance = json["manhathan_distance"],
+        relativeAssessmentMatrix = json["relative_assessment_matrix"],
+        assessmentScore = json["assessment_score"];
 
   CodasOutput.withError()
-      : normalized_matrix = {},
-        weighted_matrix = {},
-        negative_ideal_solution = {},
-        euclidian_distance = {},
-        manhathan_distance = {},
-        relative_assessment_matrix = {},
-        assessment_score = {};
+      : normalizedMatrix = {},
+        weightedMatrix = {},
+        negativeIdealSolution = {},
+        euclidianDistance = {},
+        manhathanDistance = {},
+        relativeAssessmentMatrix = {},
+        assessmentScore = {};
+
+  Map<String, dynamic> toJson() => {
+        "normalized_matrix": normalizedMatrix,
+        "weighted_matrix": normalizedMatrix,
+        "negative_ideal_solution": negativeIdealSolution,
+        "euclidian_distance": euclidianDistance,
+        "manhathan_distance": manhathanDistance,
+        "relative_assessment_matrix": relativeAssessmentMatrix,
+        "assessment_score": assessmentScore
+      };
 }

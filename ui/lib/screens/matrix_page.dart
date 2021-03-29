@@ -174,20 +174,23 @@ class _MatrixPageState extends State<MatrixPage> {
                   children: [
                     IconButton(
                         onPressed: _addNewRow, icon: Icon(Icons.add_box_sharp)),
+                    SizedBox(height: 32),
                     IconButton(
                         onPressed: _removeRow, icon: Icon(Icons.remove_circle)),
                   ],
                 ),
               ),
               Expanded(
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
+                child: Center(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
                     child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                            columns: _cols, rows: _rows, key: _tableKey)),
+                      scrollDirection: Axis.vertical,
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(
+                              columns: _cols, rows: _rows, key: _tableKey)),
+                    ),
                   ),
                 ),
               ),
