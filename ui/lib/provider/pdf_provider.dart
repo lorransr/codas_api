@@ -8,20 +8,43 @@ class PDFProvider {
   var _helper = TableHelper();
   createPDF(ModelResults _data) async {
     final pdf = pw.Document();
-    var _normalizedMatrixArray = _helper.getMatrixArray(
-        _data.results.normalizedMatrix, _helper.getAlternatives(_data));
+    var _alternatives = _helper.getAlternatives(_data);
+    var _normalizedMatrixArray =
+        _helper.getMatrixArray(_data.results.normalizedMatrix, _alternatives);
+    var _weightedMatrixArray =
+        _helper.getMatrixArray(_data.results.weightedMatrix, _alternatives);
+    var _negativeIdealSolution =
+        _helper.getVectorArray(_data.results.negativeIdealSolution);
+    var _euclidianDistance = _helper.getDistanceArray(
+        _data.results.euclidianDistance, _alternatives);
+    var _manhathanDistance = _helper.getDistanceArray(
+        _data.results.manhathanDistance, _alternatives);
+    var _relativeAssessmentMatrix = _helper.getComparrisonMatrixArray(
+        _data.results.relativeAssessmentMatrix, _alternatives);
     pdf.addPage(
-      pw.Page(
+      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
-          return pw.Center(
-            child: pw.Column(
-              children: [
-                pw.Text("Hello World"),
-                pw.Table.fromTextArray(data: _normalizedMatrixArray)
-              ],
-            ),
-          );
+          return [
+            pw.Header(text: "Codas Method Result Sheet"),
+            pw.Text("Normalized Matrix"),
+            pw.Table.fromTextArray(data: _normalizedMatrixArray),
+            pw.Divider(),
+            pw.Text("Weighted Matrix"),
+            pw.Table.fromTextArray(data: _weightedMatrixArray),
+            pw.Divider(),
+            pw.Text("Negative Ideal Solution Matrix"),
+            pw.Table.fromTextArray(data: _negativeIdealSolution),
+            pw.Divider(),
+            pw.Text("Euclidian Distance from Negative Ideal Solution"),
+            pw.Table.fromTextArray(data: _euclidianDistance),
+            pw.Divider(),
+            pw.Text("Manhathan Distance from Negative Ideal Solution"),
+            pw.Table.fromTextArray(data: _manhathanDistance),
+            pw.Divider(),
+            pw.Text("Relative Assessment Matrix"),
+            pw.Table.fromTextArray(data: _relativeAssessmentMatrix),
+          ];
         },
       ),
     );

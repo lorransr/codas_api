@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:codas_method/bloc/results_bloc.dart';
 import 'package:codas_method/model/codas_input.dart';
 import 'package:codas_method/model/model_results.dart';
+import 'package:flutter/rendering.dart';
 
 class ResultPage extends StatefulWidget {
   static const routeName = '/results';
@@ -166,9 +167,12 @@ class _ResultPageState extends State<ResultPage> {
     print("cols length: ${_cols.length}");
     print("rows length: ${_rows.length}");
 
-    return DataTable(
-      columns: _cols,
-      rows: _rows,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columns: _cols,
+        rows: _rows,
+      ),
     );
   }
 
@@ -194,9 +198,12 @@ class _ResultPageState extends State<ResultPage> {
       );
       _rows.add(DataRow(cells: _cells));
     });
-    return DataTable(
-      columns: _cols,
-      rows: _rows,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columns: _cols,
+        rows: _rows,
+      ),
     );
   }
 
@@ -313,9 +320,12 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ),
           ),
-          ElevatedButton(
-              onPressed: () => _pdfProvider.createPDF(data),
-              child: Text("Print Results"))
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+                onPressed: () => _pdfProvider.createPDF(data),
+                child: Text("Print Results")),
+          )
         ],
       ),
     );
