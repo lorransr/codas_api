@@ -1,11 +1,6 @@
-from fastapi import FastAPI
-from pydantic import BaseModel,validator
-from typing import List
+from typing import List,Optional
 from enum import Enum
-import pandas as pd
-import codas_method
-
-app = FastAPI()
+from pydantic import BaseModel,validator
 
 class CriteriaType(str,Enum):
     cost = 'cost'
@@ -16,9 +11,19 @@ class Criteria(BaseModel):
     type: CriteriaType
     weight: float
 
+class CodasOutput(BaseModel):
+    normalized_matrix: dict
+    weighted_matrix: dict
+    negative_ideal_solution: dict
+    euclidian_distance: dict
+    manhathan_distance: dict
+    relative_assessment_matrix: dict
+    assessment_score:dict
+
 class CodasInput(BaseModel):
     criterias: List[Criteria]
     alternatives: List[List[float]]
+    alternatives_names: Optional[List[str]]
     threshold: float
 
     class Config:
@@ -74,8 +79,13 @@ class CodasInput(BaseModel):
             sizes.append(len(a))
         print(len(set(sizes)))
         if len(set(sizes)) != 1:
+            print("alternatives should have same size")
             raise ValueError("alternatives should have same size")
+        elif "criterias" not in values:
+            print("criterias should be provided")
+            raise ValueError("criterias should be provided")
         elif sizes[0] != len(values["criterias"]):
+            print("alternatives and criterias should have same length")
             raise ValueError("alternatives and criterias should have same length")
         else:
             return v
@@ -90,16 +100,14 @@ class CodasInput(BaseModel):
         assert sum([c.weight for c in v]) == 1, "criterias weights should add up to 1"
         return v
 
-
-
-@app.post("/codas/")
-def calculate_codas(input:CodasInput):
-    m_raw = pd.DataFrame(input.alternatives,columns=[c.name for c in input.criterias])
-    weights = pd.Series([c.weight for c in input.criterias],index = [c.name for c in input.criterias])
-    alternatives = [ "a_" + str(i) for i in range(1,len(m_raw)+1)]
-    benefit_criteria = [c.name for c in input.criterias if c.type == CriteriaType.benefit]
-    cost_criteria = [c.name for c in input.criterias if c.type == CriteriaType.cost]
-    assessment_score = (
-        codas_method.calculate_codas(
-            m_raw,alternatives,weights,benefit_criteria,cost_criteria,input.threshold))
-    return {"response":assessment_score.to_dict()}
+    @validator("alternatives_names")
+    def alternatives_names_should_have_same_len_as_alternatives_vector(cls,v,values):
+        if v == None:
+            return v
+        elif "alternatives" not in values:
+            print("alternatives should be provided")
+            raise ValueError("alternatives should be provided")
+        elif len(v) != len(values["alternatives"]):
+            raise ValueError("alternatives len should have the same len of an alternative vector")
+        else:
+            return v
