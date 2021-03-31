@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
+  static const routeName = '/about';
   @override
   _AboutPageState createState() => _AboutPageState();
 }
@@ -16,16 +18,39 @@ class _AboutPageState extends State<AboutPage> {
         backgroundColor: Colors.purple,
       ),
       body: Column(
-        children: [SizedBox(height: 32), _groupTiles()],
+        children: [
+          SizedBox(height: 32),
+          Expanded(
+            child: SingleChildScrollView(
+              child: _groupTiles(),
+            ),
+          )
+        ],
       ),
     );
   }
 }
 
+Widget _imageLink(String resource, String link) {
+  return Container(
+    height: 32,
+    child: TextButton(
+      onPressed: () => _launchURL(link),
+      child: Image.asset(
+        "assets/logos/$resource.png",
+      ),
+    ),
+  );
+}
+
+void _launchURL(String link) async =>
+    await canLaunch(link) ? await launch(link) : throw 'Could not launch $link';
+
 Widget _groupTiles() {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 300.0),
+    padding: const EdgeInsets.symmetric(horizontal: 32),
     child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Card(
           child: ListTile(
@@ -35,13 +60,17 @@ Widget _groupTiles() {
               ),
               backgroundColor: Colors.transparent,
             ),
-            title: Text("Lorran Rodrigues"),
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text("Lorran Rodrigues"),
+            ),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("link1"),
-                Text("link2"),
-                Text("link3"),
+                _imageLink("github", "https://github.com/lorransr"),
+                _imageLink("linkedin",
+                    "https://https://www.linkedin.com/in/lorranrodr/"),
+                _imageLink("lattes", "https://github.com/lorransr"),
               ],
             ),
           ),
@@ -53,7 +82,19 @@ Widget _groupTiles() {
                   'https://randomuser.me/api/portraits/lego/2.jpg'),
               backgroundColor: Colors.transparent,
             ),
-            title: Text("Prof. Dr. Marcos dos Santos"),
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text("Prof. Dr. Marcos dos Santos"),
+            ),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _imageLink("research_gate", "https://github.com/lorransr"),
+                _imageLink("linkedin",
+                    "https://https://www.linkedin.com/in/lorranrodr/"),
+                _imageLink("lattes", "https://github.com/lorransr"),
+              ],
+            ),
           ),
         ),
         Card(
@@ -63,7 +104,19 @@ Widget _groupTiles() {
                   "https://randomuser.me/api/portraits/lego/3.jpg"),
               backgroundColor: Colors.transparent,
             ),
-            title: Text("Prof. Dr. Carlos Francisco Simões Gomes"),
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text("Prof. Dr. Carlos Francisco Simões Gomes"),
+            ),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _imageLink("research_gate", "https://github.com/lorransr"),
+                _imageLink("linkedin",
+                    "https://https://www.linkedin.com/in/lorranrodr/"),
+                _imageLink("lattes", "https://github.com/lorransr"),
+              ],
+            ),
           ),
         )
       ],

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:codas_method/screens/form_page.dart';
 
+import 'about_page.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -53,11 +55,16 @@ class _HomePageState extends State<HomePage> {
                             _isHovering[2] = value;
                           });
                         },
-                        child: Text(
-                          'About Us',
-                          style: TextStyle(
-                              color:
-                                  _isHovering[2] ? Colors.black : Colors.white),
+                        child: TextButton(
+                          onPressed: () =>
+                              Navigator.pushNamed(context, AboutPage.routeName),
+                          child: Text(
+                            'About Us',
+                            style: TextStyle(
+                                color: _isHovering[2]
+                                    ? Colors.black
+                                    : Colors.white),
+                          ),
                         ),
                       ),
                     ],

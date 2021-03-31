@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:codas_method/helpers/table_helper.dart';
 import 'package:codas_method/model/criteria.dart';
 import 'package:codas_method/model/criteria_type.dart';
+import 'package:codas_method/provider/pdf_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:codas_method/bloc/results_bloc.dart';
@@ -16,6 +18,8 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   ScrollController _controller;
+  var _pdfProvider = PDFProvider();
+  var _tableHelper = TableHelper();
   @override
   Widget build(BuildContext context) {
     _controller = ScrollController();
@@ -168,10 +172,6 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
-  List<String> _getAlternatives(ModelResults data) {
-    return data.results.relativeAssessmentMatrix.keys.toList();
-  }
-
   Widget _relativeAssessmentMatrixTile(Map<String, dynamic> matrix) {
     List<DataColumn> _cols = [];
     print(matrix);
@@ -225,7 +225,7 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget _buildSuccessWidget(ModelResults data) {
-    List<String> _alternatives = _getAlternatives(data);
+    List<String> _alternatives = _tableHelper.getAlternatives(data);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -313,6 +313,9 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ),
           ),
+          ElevatedButton(
+              onPressed: () => _pdfProvider.createPDF(data),
+              child: Text("Print Results"))
         ],
       ),
     );
