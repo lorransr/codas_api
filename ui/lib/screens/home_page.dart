@@ -75,6 +75,22 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      persistentFooterButtons: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              height: 64,
+              child: Image.asset("assets/logos/ime.png"),
+            ),
+            Text(
+                '''"All rights reserved. Non-commercial (academic) use of this software is free.
+The only thing asked in exchange is to cite this software when the results are used in publications ".
+To cite the software: RODRIGUES, Lorran Santos; SANTOS, Marcos dos; GOMES, Carlos Francisco Simões;
+Codas Software Web (v.1). 2021.''')
+          ],
+        ),
+      ],
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                 onPrimary: Colors.white,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

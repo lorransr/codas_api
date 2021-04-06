@@ -51,6 +51,10 @@ flutter:
     - assets/logos/lattes.png
     - assets/logos/linkedin.png
     - assets/logos/research_gate.png
+    - assets/logos/ime.png
+    - assets/avatar/lorran.jpeg
+    - assets/avatar/marcos.jpg
+    - assets/avatar/simoes.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

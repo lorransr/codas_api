@@ -54,7 +54,7 @@ class PDFProvider {
     final anchor = html.document.createElement('a') as html.AnchorElement
       ..href = url
       ..style.display = 'none'
-      ..download = 'some_name.pdf';
+      ..download = 'codas_results.pdf';
     html.document.body.children.add(anchor);
     anchor.click();
     html.document.body.children.remove(anchor);

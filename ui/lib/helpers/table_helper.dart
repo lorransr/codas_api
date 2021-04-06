@@ -75,12 +75,18 @@ class TableHelper {
     }).toList());
 
     for (var idx = 0; idx < _alternatives.length; idx += 1) {
-      var _array = [];
+      List<String> _array = [];
       _keys.forEach((k) {
-        print(k);
-        print(idx);
-        print(parsedMatrix[k]);
-        _array.add(parsedMatrix[k][idx]);
+        print("k: $k");
+        print("idx: $idx");
+        var value = parsedMatrix[k][idx];
+        print("value: $value");
+        if (k != "0_alternatives") {
+          var valueTransformed = value.toStringAsFixed(3);
+          _array.add(valueTransformed);
+        } else {
+          _array.add(value);
+        }
       });
       _matrixArray.add(_array);
     }

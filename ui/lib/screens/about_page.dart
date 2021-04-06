@@ -55,10 +55,7 @@ Widget _groupTiles() {
         Card(
           child: ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(
-                "https://randomuser.me/api/portraits/lego/1.jpg",
-              ),
-              backgroundColor: Colors.transparent,
+              backgroundImage: AssetImage("assets/avatar/lorran.jpeg"),
             ),
             title: Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
@@ -78,8 +75,7 @@ Widget _groupTiles() {
         Card(
           child: ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://randomuser.me/api/portraits/lego/2.jpg'),
+              backgroundImage: AssetImage("assets/avatar/marcos.jpg"),
               backgroundColor: Colors.transparent,
             ),
             title: Padding(
@@ -100,8 +96,7 @@ Widget _groupTiles() {
         Card(
           child: ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://randomuser.me/api/portraits/lego/3.jpg"),
+              backgroundImage: AssetImage("assets/avatar/simoes.jpg"),
               backgroundColor: Colors.transparent,
             ),
             title: Padding(
