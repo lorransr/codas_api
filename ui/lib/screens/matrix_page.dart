@@ -38,31 +38,57 @@ class _MatrixPageState extends State<MatrixPage> {
     });
   }
 
+  DataCell _emptyNumberCell() {
+    final controller = TextEditingController(text: "0.0");
+    return DataCell(
+        TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r"^\d*\.?\d*"))
+          ],
+          onFieldSubmitted: (val) {
+            print(val);
+          },
+          validator: (val) {
+            if (val.isEmpty) {
+              return "Insert data";
+            }
+          },
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+        ),
+        showEditIcon: false);
+  }
+
+  DataCell _emptyTextCell() {
+    var n_row = _rows.length;
+    final controller = TextEditingController(text: "alternative_$n_row");
+    return DataCell(
+        TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.text,
+          onFieldSubmitted: (val) {
+            print(val);
+          },
+          validator: (val) {
+            if (val.isEmpty) {
+              return "Name the alternative";
+            }
+          },
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+        ),
+        showEditIcon: false);
+  }
+
   List<DataCell> _createEmptyCells(int n) {
     int idx = 0;
     List<DataCell> cells = [];
     while (idx < n) {
-      final controller = TextEditingController(text: "0.0");
-      cells.add(
-        DataCell(
-            TextFormField(
-              controller: controller,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r"^\d*\.?\d*"))
-              ],
-              onFieldSubmitted: (val) {
-                print(val);
-              },
-              validator: (val) {
-                if (val.isEmpty) {
-                  return "Insert data";
-                }
-              },
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-            ),
-            showEditIcon: false),
-      );
+      if (idx == 0) {
+        cells.add(_emptyTextCell());
+      } else {
+        cells.add(_emptyNumberCell());
+      }
       idx++;
     }
     return cells;
@@ -73,13 +99,27 @@ class _MatrixPageState extends State<MatrixPage> {
     List<List<double>> alternatives = [];
     for (DataRow row in _rows) {
       List<double> alternative = [];
-      for (DataCell cell in row.cells) {
-        TextFormField form = cell.child;
-        alternative.add(double.parse(form.controller.text));
-      }
-      alternatives.add(alternative);
+      var idx = 0;
+      row.cells.forEach((cell) {
+        if (idx > 0) {
+          TextFormField form = cell.child;
+          alternative.add(double.parse(form.controller.text));
+          idx += 1;
+          alternatives.add(alternative);
+        }
+      });
     }
     return alternatives;
+  }
+
+  List<String> _getAlternativesNames() {
+    List<String> alternativesNames = [];
+    _rows.forEach((row) {
+      DataCell cell = row.cells.first;
+      TextFormField form = cell.child;
+      alternativesNames.add(form.controller.text);
+    });
+    return alternativesNames;
   }
 
   bool _validAlternatives(List<List<double>> _alternatives) {
@@ -100,10 +140,11 @@ class _MatrixPageState extends State<MatrixPage> {
 
   void _submit(List<Criteria> criterias) {
     List<List<double>> alternatives = _getAlternatives();
+    List<String> alternativesNames = _getAlternativesNames();
     if (_validAlternatives(alternatives)) {
       var threshold = 0.02;
-      print(criterias.length);
-      CodasInput input = CodasInput(criterias, alternatives, threshold);
+      CodasInput input =
+          CodasInput(criterias, alternatives, alternativesNames, threshold);
       Navigator.pushNamed(context, ResultPage.routeName, arguments: input);
     } else {
       _snackValidationError("You must input at least 2 alternatives");
@@ -112,6 +153,14 @@ class _MatrixPageState extends State<MatrixPage> {
 
   List<DataColumn> _createCols(List<Criteria> criterias) {
     List<DataColumn> columns = [];
+    columns.add(
+      DataColumn(
+        label: Text(
+          "Alternative",
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ),
+    );
     for (Criteria c in criterias) {
       columns.add(
         DataColumn(

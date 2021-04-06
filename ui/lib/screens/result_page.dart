@@ -42,7 +42,18 @@ class _ResultPageState extends State<ResultPage> {
         [1, 0.3],
         [0.4, 1]
       ];
-      _input = CodasInput(_fakeCriterias, _fakeAlternatives, 0.02);
+
+      List<String> _fakeAlternativesNames = [
+        "alternative 1",
+        "alternative 2",
+        "alternative 3",
+        "alternative 4",
+        "alternative 5",
+        "alternative 6",
+        "alternative 7",
+      ];
+      _input = CodasInput(
+          _fakeCriterias, _fakeAlternatives, _fakeAlternativesNames, 0.02);
     }
     print("input: ${jsonEncode(_input)}");
     resultsBloc.getRanking(_input);
