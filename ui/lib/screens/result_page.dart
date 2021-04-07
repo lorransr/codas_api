@@ -130,6 +130,7 @@ class _ResultPageState extends State<ResultPage> {
         padding: const EdgeInsets.all(32.0),
         child: Container(
           child: DataTable(columns: [
+            DataColumn(label: Text("Ranking")),
             DataColumn(label: Text("Alternative")),
             DataColumn(label: Text("Value"))
           ], rows: _getRowsFromResults(data.results.assessmentScore)),
@@ -344,10 +345,27 @@ class _ResultPageState extends State<ResultPage> {
 
   List<DataRow> _getRowsFromResults(Map<String, dynamic> results) {
     List<DataRow> _dataRows = [];
+    int ranking = 1;
     results.forEach((key, value) {
       var _value = value.toStringAsFixed(3);
-      var _row = DataRow(cells: [DataCell(Text(key)), DataCell(Text(_value))]);
+      var _row = DataRow(
+        cells: [
+          DataCell(
+            Text(
+              ranking.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataCell(
+            Text(key),
+          ),
+          DataCell(
+            Text(_value),
+          ),
+        ],
+      );
       _dataRows.add(_row);
+      ranking += 1;
     });
     return _dataRows;
   }
