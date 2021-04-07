@@ -94,7 +94,6 @@ class _MatrixPageState extends State<MatrixPage> {
     return cells;
   }
 
-  ///Print only edited rows.
   List<List<double>> _getAlternatives() {
     List<List<double>> alternatives = [];
     for (DataRow row in _rows) {
@@ -105,9 +104,11 @@ class _MatrixPageState extends State<MatrixPage> {
           TextFormField form = cell.child;
           alternative.add(double.parse(form.controller.text));
           idx += 1;
-          alternatives.add(alternative);
+        } else {
+          idx += 1;
         }
       });
+      alternatives.add(alternative);
     }
     return alternatives;
   }
@@ -123,10 +124,14 @@ class _MatrixPageState extends State<MatrixPage> {
   }
 
   bool _validAlternatives(List<List<double>> _alternatives) {
+    print("Alternatives: ${_alternatives}");
     if (_alternatives.length < 2) {
+      print("Invalid alternatives length: ${_alternatives.length}");
       return false;
+    } else {
+      print("valid alternatives length: ${_alternatives.length}");
+      return true;
     }
-    return true;
   }
 
   void _snackValidationError(String message) {
