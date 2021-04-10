@@ -85,10 +85,12 @@ Widget _groupTiles() {
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _imageLink("research_gate", "https://github.com/lorransr"),
+                _imageLink("research_gate",
+                    "https://www.researchgate.net/directory/profiles"),
                 _imageLink("linkedin",
-                    "https://https://www.linkedin.com/in/lorranrodr/"),
-                _imageLink("lattes", "https://github.com/lorransr"),
+                    "https://www.linkedin.com/in/prof-dr-marcos-santos-45909763/"),
+                _imageLink("lattes",
+                    "http://buscatextual.cnpq.br/buscatextual/visualizacv.do?metodo=apresentar&id=K4270114H9"),
               ],
             ),
           ),
@@ -106,10 +108,12 @@ Widget _groupTiles() {
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _imageLink("research_gate", "https://github.com/lorransr"),
+                _imageLink("research_gate",
+                    "https://www.researchgate.net/profile/Carlos-Francisco-Gomes"),
                 _imageLink("linkedin",
-                    "https://https://www.linkedin.com/in/lorranrodr/"),
-                _imageLink("lattes", "https://github.com/lorransr"),
+                    "https://www.linkedin.com/in/carlos-francisco-sim%C3%B5es-gomes-7284a3b/"),
+                _imageLink("lattes",
+                    "http://buscatextual.cnpq.br/buscatextual/visualizacv.do?metodo=apresentar&id=K4773441T0"),
               ],
             ),
           ),
