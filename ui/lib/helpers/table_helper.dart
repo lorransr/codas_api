@@ -6,14 +6,21 @@ class TableHelper {
   }
 
   List<List<dynamic>> getVectorArray(Map<String, dynamic> vector) {
+    print("getting vector array");
     var columns = vector.keys.toList();
     var values = vector.values.toList();
-    return [columns, values];
+    print("cols: $columns");
+    print("values: $values");
+    var valuesTruncated = values
+        .map((e) => double.parse(e.toString()).toStringAsFixed(3))
+        .toList();
+    return [columns, valuesTruncated];
   }
 
   List<List<dynamic>> getDistanceArray(
       Map<String, dynamic> vector, List<String> _alternatives,
       {useIndex = false}) {
+    print("getting distance array");
     List<List<dynamic>> _vectorArray = [];
     _vectorArray.add(["alternatives", "value"]);
     var _values = vector.values.toList();
@@ -33,6 +40,7 @@ class TableHelper {
 
   List<List<dynamic>> getComparrisonMatrixArray(
       Map<String, dynamic> matrix, List<String> _alternatives) {
+    print("getting comp matrix");
     List<List<dynamic>> _matrixArray = [];
     var _cols = [""];
     _cols.addAll(matrix.keys.toList());
@@ -53,6 +61,7 @@ class TableHelper {
 
   List<List<dynamic>> getMatrixArray(
       Map<String, dynamic> matrix, List<String> _alternatives) {
+    print("getting Matrix Array");
     var _matrix = matrix;
     Map<String, List<dynamic>> parsedMatrix = {};
     _matrix.keys.toList().forEach((element) {

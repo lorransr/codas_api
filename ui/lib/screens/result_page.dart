@@ -34,13 +34,20 @@ class _ResultPageState extends State<ResultPage> {
         Criteria("criteria_2", CriteriaType.benefit, 0.5)
       ];
       List<List<double>> _fakeAlternatives = [
-        [0.1, 0.3],
+        // [0.1, 0.3],
+        // [0.5473, 0.5],
+        // [0.2, 0.1],
+        // [0.7, 0.1],
+        // [0.4, 0.2],
+        // [1, 0.3],
+        // [0.4, 1]
+        [0.1, 0.3444],
         [0.5473, 0.5],
-        [0.2, 0.1],
-        [0.7, 0.1],
-        [0.4, 0.2],
-        [1, 0.3],
-        [0.4, 1]
+        [0.222, 0.1],
+        [0.777, 0.1],
+        [0.4444, 0.222],
+        [1, 0.333],
+        [0.4555, 1]
       ];
 
       List<String> _fakeAlternativesNames = [
