@@ -2,6 +2,9 @@ from model import CodasOutput
 import pandas as pd
 import numpy as np
 from typing import List
+import logging
+
+logger = logging.getLogger()
 
 def normalize_codas(s:pd.Series,benefit_criteria = True)->pd.Series:
   if benefit_criteria:
@@ -68,7 +71,7 @@ def calculate_codas(
         euclidean_comparison + threshold_matrix * manhathan_comparison)
     # step 7
     assessment_score = relative_assesment_matrix.sum().sort_values(ascending=False)
-    print(assessment_score.to_dict())
+    logger.info("assessment score: {}".format(assessment_score.to_dict()))
     output = CodasOutput(
         **{
             "normalized_matrix":m_normalized.to_dict(),
@@ -108,4 +111,4 @@ if __name__ == "__main__":
     threshold = 0.02
     results = calculate_codas(m_raw,alternatives,weights,benefit_criteria,cost_criteria,threshold)
     for r in results:
-        print(r.to_dict())
+        logger.info("result: {}".format(r.to_dict()))

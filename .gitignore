@@ -2,3 +2,6 @@ streamlit/
 .vscode/
 __pycache__/
 */__pycache__/
+api/dist/
+api/venv/
+api/*.zip
