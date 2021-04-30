@@ -5,3 +5,4 @@ __pycache__/
 api/dist/
 api/venv/
 api/*.zip
+api.zip
