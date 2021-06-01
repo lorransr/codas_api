@@ -5,12 +5,67 @@ import 'package:codas_method/screens/form_page.dart';
 import 'about_page.dart';
 
 class HomePage extends StatefulWidget {
+  static const routeName = '/';
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   List _isHovering = [false, false, false];
+    final _formKey = GlobalKey<FormState>();
+  final _acceptedKey = "4M0L4ND0 4 M4L4NDR4";
+  final _textEditingController = TextEditingController();
+
+  Future<void> _showPassWordDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          bool isChecked = false;
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                          obscureText: true,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          controller: _textEditingController,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Please Enter a Password";
+                            }
+                            if (value != _acceptedKey) {
+                              return 'Wrong Password';
+                            } else {
+                              return null;
+                            }
+                          },
+                          decoration: InputDecoration(hintText: "Password"),
+                          onFieldSubmitted: (value) => _validatePassword()),
+                    ],
+                  )),
+              title: Text('Enter the Password'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Confirm   '),
+                  onPressed: () => _validatePassword(),
+                ),
+              ],
+            );
+          });
+        });
+  }
+
+    void _validatePassword() {
+    if (_formKey.currentState.validate()) {
+      // Do something like updating SharedPreferences or User Settings etc.
+      Navigator.of(context).pop();
+      Navigator.pushNamed(context, FormPage.routeName);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +161,7 @@ Codas Software Web (v.1). 2021.''')
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, FormPage.routeName),
+              onPressed: () => _showPassWordDialog(),
               child: Text("start"),
               style: ElevatedButton.styleFrom(
                 primary: Colors.green,
